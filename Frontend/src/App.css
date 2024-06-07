@@ -1,0 +1,48 @@
+.button{
+  margin-top: 5%;
+}
+
+.form{
+  width: 90%;
+  margin-left: 5%;
+  
+}
+.outerdiv{
+  width: 90%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 5%;
+  border-radius: 10px;
+}
+
+.mssg-row{
+  margin-top: 5%;
+}
+
+.title{
+  font-family: "Seymour One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: palevioletred;
+  font-size: 3rem;
+}
+
+.send{
+  background-color: palevioletred;
+  border-color: palevioletred;
+  width: 100px;
+  display: flex;
+  justify-content:center ;
+}
+
+.username{
+  color: palevioletred;
+}
+
+.send:hover{
+  background-color: palevioletred;
+  border-color: palevioletred;
+}
+
+.messagecol{
+  padding: 1%;
+}
