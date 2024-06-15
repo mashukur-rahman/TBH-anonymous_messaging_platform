@@ -1,15 +1,15 @@
 import "./App.css";
 import { useParams } from "react-router-dom";
-import { Form, Row, Col, Button, Container, Modal} from "react-bootstrap";
+import { Form, Row, Col, Button, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 function Messagebox() {
-    const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleClose = () => {
     setShow(false);
-    setFormdata({...formdata, message:""})
-};
+    setFormdata({ ...formdata, message: "" });
+  };
   const handleShow = () => setShow(true);
   const user = useParams();
   console.log(user);
@@ -23,8 +23,8 @@ function Messagebox() {
   async function handlesubmit(e) {
     e.preventDefault();
     var result = await axios.post("http://localhost:3000/send", formdata);
-    if(result.data=="successful"){
-        handleShow()
+    if (result.data == "successful") {
+      handleShow();
     }
   }
   return (
