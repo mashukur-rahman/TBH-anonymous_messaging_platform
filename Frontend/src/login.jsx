@@ -2,7 +2,11 @@ import { Form, Row, Col, Button, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
+import { AuthContext } from "./Authcontext";
+import { useContext } from "react";
 function Login() {
+  const myContext=useContext(AuthContext)
+  
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
@@ -24,8 +28,9 @@ function Login() {
   async function handlesubmit(e) {
     e.preventDefault();
     var result = await axios.post("http://localhost:3000/login", formdata);
-    if(result.data.username){
-      sessionStorage.setItem("username", result.data.username)
+ 
+    if(result.data.token){
+      myContext.login(result.data.token)
       navigate("/feed")
     }else{
       setShow(true)

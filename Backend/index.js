@@ -58,16 +58,27 @@ app.post("/registeruser", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const qry = "select * from user where username=? and password=? ";
+  const qry = "select * from user where username=?";
   connection.query(
     qry,
-    [req.body.username, req.body.password],
+    [req.body.username],
     (error, result) => {
       if (error) {
         console.log(error);
       } else {
         if (result.length != 0) {
-          res.json({ username: result[0].username });
+       
+         bcrypt.compare(req.body.password, result[0].password, function(err, result2) {
+       
+          if(err){
+            console.log (err)
+          }else if (result2==true){
+           const response=jwt.sign({username:result[0].username}, "this is my secret")
+           res.json({token:response})
+          }  
+         
+        });
+       
         } else {
           res.send("Not found");
         }
@@ -77,15 +88,20 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/getmessages", (req, res) => {
-  console.log(req.body);
+  var decoded = jwt.verify(req.body.token, 'this is my secret');
+ if(decoded.username){
   const qry = "select * from messages where username=?";
-  connection.query(qry, [req.body.username], (error, result) => {
+  connection.query(qry, [decoded.username], (error, result) => {
     if (error) {
       console.log(error);
     } else {
       res.json({ messages: result });
     }
   });
+ }else{
+  res.json({error:"Token not matched"})
+ }
+  
 });
 
 app.listen(3000, (req, res) => {});

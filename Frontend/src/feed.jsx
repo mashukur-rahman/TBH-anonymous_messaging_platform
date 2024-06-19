@@ -2,25 +2,28 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {Row, Col, Container} from "react-bootstrap"
+import { useContext } from "react"
+import { AuthContext } from "./Authcontext"
 import "./App.css"
 function Feed(){
+    const myContext=useContext(AuthContext)
     const [messages, setMessages]=useState([])
  const navigate=useNavigate()
- const username=sessionStorage.getItem("username")
+ 
+    
     useEffect(()=>{
-
-       
-        console.log(username)
-        if(!username){
+        if(myContext.loginStatus==false){
             navigate("/")
         }
 
-
-    },[])
-    useEffect(()=>{
         async function getmessages(){
-            var result=await axios.post("http://localhost:3000/getmessages", {username:username})
-            setMessages(result.data.messages)
+            var result=await axios.post("http://localhost:3000/getmessages", {token:sessionStorage.getItem("token")})
+            if(result.data.messages){
+                setMessages(result.data.messages)
+            }else{
+                navigate("/")
+            }
+            
             
         }
         getmessages()
